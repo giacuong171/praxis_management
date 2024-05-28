@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "api.apps.ApiConfig",
+    "rest_framework",
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = "praxis_management.urls"
@@ -99,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -121,3 +124,15 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'api.User'
+STATIC_URL = "static/"
+MEDIA_ROOT = '%s/static/media' % BASE_DIR
+
+REST_FRAMEWORK = {
+                'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+                  'PAGE_SIZE':2,
+                  'DEFAULT_AUTHENTICATION_CLASSES': [
+                        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+                    ]
+                  }
